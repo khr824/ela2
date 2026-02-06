@@ -3,273 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silly Food Debates!</title>
+    <title>IELTS Writing Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* --- General Styles --- */
-        body {
-            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; /* Playful font */
-            background-color: #87CEEB; /* Sky blue */
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* --- Presentation Container --- */
-        #presentation-container {
-            background-color: #ffffff;
-            width: 80%;
-            max-width: 800px;
-            height: 60%; /* Aspect ratio appropriate for slides */
-            min-height: 400px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-            border: 5px solid #FFD700; /* Gold border */
-            text-align: center;
-        }
-
-        /* --- Slide Styles --- */
-        .slide {
-            display: none; /* Hidden by default */
-            height: 100%;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-            animation: fadeIn 0.5s;
-        }
-
-        /* Show the active slide */
-        .slide.active {
-            display: flex;
-        }
-
-        h1 {
-            color: #FF4500; /* Orange Red */
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px #FFD700;
-        }
-
-        h2 {
-            color: #2E8B57; /* Sea Green */
-            font-size: 1.8rem;
-        }
-
-        p {
-            font-size: 1.3rem;
-            color: #555;
-            max-width: 80%;
-            line-height: 1.4;
-        }
-
-        .emoji-container {
-            font-size: 5rem;
-            margin: 20px 0;
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-        }
-
-        .vs {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #888;
-            align-self: center;
-        }
-
-        /* --- Navigation Buttons --- */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #FF69B4; /* Hot pink */
-            border: none;
-            color: white;
-            font-size: 2rem;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.1s, background-color 0.2s;
-            z-index: 10;
-        }
-
-        .nav-btn:hover {
-            background-color: #FF1493;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        #prev-btn { left: 20px; }
-        #next-btn { right: 20px; }
-
-        /* --- Progress Bar --- */
-        .progress-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background-color: #eee;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: #32CD32; /* Lime Green */
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* --- Animation --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* --- Mobile Responsiveness --- */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .emoji-container { font-size: 3rem; }
-            #presentation-container { width: 95%; height: 70%; }
-        }
+        .hidden { display: none; }
+        .active-tab { border-bottom: 2px solid #2563eb; color: #2563eb; }
+        .gradient-bg { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 font-sans text-slate-900 min-h-screen">
 
-    <div id="presentation-container">
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-
-        <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">&#10094;</button>
-        <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">&#10095;</button>
-
-        <div class="slide active">
-            <h1>The Great Food Debate!</h1>
-            <div class="emoji-container">
-                <span>🌮</span><span>🍔</span><span>🍕</span>
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="book-open" class="text-blue-600"></i>
+                <h1 class="font-bold text-xl tracking-tight">IELTS<span class="text-blue-600">Master</span></h1>
             </div>
-            <p>Welcome to the silliest showdown in history! Raise your hand to vote for your favorite choice.</p>
-            <p><strong>Are you ready?</strong></p>
+            <nav class="flex gap-6 text-sm font-medium text-slate-500">
+                <button onclick="switchTab('task1')" id="tab-task1" class="active-tab py-5">Task 1: Report</button>
+                <button onclick="switchTab('task2')" id="tab-task2" class="py-5">Task 2: Essay</button>
+                <button onclick="switchTab('vocab')" id="tab-vocab" class="py-5">Vocabulary</button>
+            </nav>
         </div>
+    </header>
 
-        <div class="slide">
-            <h2>The Pineapple Problem</h2>
-            <p>Does fruit belong on a pizza?</p>
-            <div class="emoji-container">
-                <span>🍕 + 🍍 = 😍</span>
-                <span class="vs">VS</span>
-                <span>🍕 + 🍍 = 🤢</span>
+    <main class="max-w-4xl mx-auto p-6">
+        
+        <section id="content-task1">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold">Task 1 Practice</h2>
+                <p class="text-slate-500">Master charts, maps, and processes.</p>
             </div>
-            <p>Team <strong>Yum</strong> or Team <strong>Yuck</strong>?</p>
-        </div>
 
-        <div class="slide">
-            <h2>The Identity Crisis</h2>
-            <p>Is a Hot Dog a Sandwich?</p>
-            <div class="emoji-container">
-                <span>🌭</span>
-                <span class="vs">??</span>
-                <span>🥪</span>
-            </div>
-            <p>It has bread... it has meat... but is it a sandwich, a taco, or just a hot dog?</p>
-        </div>
+            <div class="grid gap-8">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-6 bg-slate-50 border-b border-slate-200">
+                        <span id="level-title" class="text-xs font-bold uppercase tracking-wider text-blue-600">Level 1: Intro Paraphrasing</span>
+                        <h3 id="instruction-text" class="text-lg font-semibold mt-1">Complete the paraphrase using academic verbs.</h3>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div id="visual-container" class="mb-6 p-4 bg-slate-100 rounded-lg flex justify-center">
+                            <svg viewBox="0 0 400 200" class="w-full max-w-md h-auto bg-white rounded shadow-sm">
+                                <path d="M80 140 Q120 140 160 40 T240 140 T320 30" fill="none" stroke="#8b5cf6" stroke-width="3" />
+                                <circle cx="80" cy="140" r="4" fill="#8b5cf6" />
+                                <circle cx="160" cy="40" r="4" fill="#8b5cf6" />
+                            </svg>
+                        </div>
 
-        <div class="slide">
-            <h2>The Morning Splash</h2>
-            <p>How do you pour your cereal?</p>
-            <div class="emoji-container">
-                <span>🥣 then 🥛</span>
-                <span class="vs">VS</span>
-                <span>🥛 then 🥣</span>
-            </div>
-            <p><strong>Cereal First:</strong> Keeps it neat!<br><strong>Milk First:</strong> Are you an alien?!</p>
-        </div>
+                        <div id="exercise-area" class="space-y-4">
+                            <p id="prompt-display" class="italic text-slate-600 mb-4 border-l-4 border-blue-200 pl-4"></p>
+                            
+                            <div id="sentence-builder" class="flex flex-wrap items-center gap-2 text-lg leading-relaxed">
+                                </div>
+                        </div>
 
-        <div class="slide">
-            <h2>The Sweet & Salty Dip</h2>
-            <p>Dipping French Fries in Milkshakes/Frostys...</p>
-            <div class="emoji-container">
-                <span>🍟</span>
-                <span class="vs">+</span>
-                <span>🍦</span>
-            </div>
-            <p>Is this a delicious genius move or a food crime?</p>
-        </div>
+                        <div id="feedback-box" class="mt-6 p-4 rounded-lg hidden"></div>
 
-        <div class="slide">
-            <h2>The Brownie Battle</h2>
-            <p>Which piece is the best?</p>
-            <div class="emoji-container">
-                <span>🧱 Corner (Crunchy)</span>
-                <span class="vs">VS</span>
-                <span>🟫 Center (Gooey)</span>
+                        <div class="mt-8 flex justify-between">
+                            <button onclick="resetExercise()" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition">
+                                <i data-lucide="rotate-ccw" size="18"></i> Reset
+                            </button>
+                            <button onclick="nextExercise()" class="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                                Next Exercise <i data-lucide="arrow-right" size="18"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p>Do you fight for the edges or dive for the middle?</p>
-        </div>
+        </section>
 
-        <div class="slide">
-            <h1>Thanks for Voting!</h1>
-            <div class="emoji-container">
-                <span>👑</span><span>🏆</span><span>🎉</span>
+        <section id="content-vocab" class="hidden">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold">Academic Vocabulary</h2>
+                <p class="text-slate-500">Upgrade your word choice from Band 5 to Band 8.</p>
             </div>
-            <p>No matter what you chose, we can all agree on one thing...</p>
-            <p><strong>Food is awesome!</strong></p>
-            <p style="font-size: 1rem; color: #888;">(Press refresh to play again)</p>
-        </div>
-    </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="vocab-grid">
+                </div>
+        </section>
+
+        <section id="content-task2" class="hidden">
+            <div class="mb-8 text-center">
+                <i data-lucide="brain" class="mx-auto text-blue-500 mb-2" size="48"></i>
+                <h2 class="text-2xl font-bold">Task 2 Essay Planner</h2>
+                <p class="text-slate-500">Structure your arguments for maximum Coherence and Cohesion.</p>
+            </div>
+
+            <div class="bg-blue-600 rounded-xl p-8 text-white shadow-lg mb-8">
+                <h3 class="text-xl font-bold mb-4">Essay AI Assistant</h3>
+                <p class="mb-6 opacity-90">Paste your prompt or essay here to receive instant feedback on structure and vocabulary.</p>
+                <textarea class="w-full h-40 p-4 rounded-lg text-slate-900 mb-4" placeholder="Enter your essay draft..."></textarea>
+                <button class="bg-white text-blue-600 font-bold px-6 py-3 rounded-lg shadow-md hover:bg-blue-50 transition">Analyze My Essay</button>
+            </div>
+        </section>
+
+    </main>
 
     <script>
-        let currentSlideIndex = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        const progressBar = document.getElementById('progress-bar');
+        // --- DATA ---
+        const levels = [
+            {
+                title: "Intro 1: Line Graph",
+                prompt: "The graph shows how much electricity was consumed in winter and summer.",
+                instruction: "Complete the paraphrase using academic verbs.",
+                segments: [
+                    { type: "text", content: "The line graph " },
+                    { type: "gap", correct: "illustrates", options: ["shows", "illustrates", "draws"] },
+                    { type: "text", content: " the " },
+                    { type: "gap", correct: "variations", options: ["changes", "variations", "lines"] },
+                    { type: "text", content: " in electricity consumption during two different seasons." }
+                ]
+            }
+        ];
 
-        function updateProgress() {
-            const percentage = ((currentSlideIndex + 1) / totalSlides) * 100;
-            progressBar.style.width = percentage + '%';
-        }
+        let currentLevelIndex = 0;
 
-        function showSlide(index) {
-            // Hide all slides
-            slides.forEach(slide => {
-                slide.classList.remove('active');
+        // --- CORE FUNCTIONS ---
+        function switchTab(tabId) {
+            ['task1', 'task2', 'vocab'].forEach(t => {
+                document.getElementById(`content-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('active-tab');
             });
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('active-tab');
+        }
 
-            // Handle wrapping (optional, or disable buttons at ends)
-            if (index >= totalSlides) {
-                currentSlideIndex = 0;
-            } else if (index < 0) {
-                currentSlideIndex = totalSlides - 1;
+        function loadTask1Exercise() {
+            const level = levels[currentLevelIndex];
+            document.getElementById('level-title').innerText = level.title;
+            document.getElementById('instruction-text').innerText = level.instruction;
+            document.getElementById('prompt-display').innerText = `Prompt: "${level.prompt}"`;
+            
+            const builder = document.getElementById('sentence-builder');
+            builder.innerHTML = '';
+
+            level.segments.forEach((seg, idx) => {
+                if (seg.type === 'text') {
+                    const span = document.createElement('span');
+                    span.innerText = seg.content;
+                    builder.appendChild(span);
+                } else {
+                    const select = document.createElement('select');
+                    select.className = "border-b-2 border-blue-300 bg-blue-50 px-2 outline-none focus:border-blue-600 transition";
+                    select.innerHTML = `<option value="">...</option>` + 
+                        seg.options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+                    select.onchange = (e) => checkAnswer(e.target, seg.correct);
+                    builder.appendChild(select);
+                }
+            });
+        }
+
+        function checkAnswer(element, correct) {
+            if (element.value === correct) {
+                element.classList.add('text-green-600', 'border-green-500');
+                element.classList.remove('text-red-600', 'border-red-500');
             } else {
-                currentSlideIndex = index;
+                element.classList.add('text-red-600', 'border-red-500');
+                element.classList.remove('text-green-600', 'border-green-500');
             }
-
-            // Show new slide
-            slides[currentSlideIndex].classList.add('active');
-            updateProgress();
         }
 
-        function changeSlide(direction) {
-            showSlide(currentSlideIndex + direction);
+        function initVocab() {
+            const vocab = [
+                { s: "Go up", a: "Rocket", t: "Trend" },
+                { s: "Go down", a: "Plummet", t: "Trend" },
+                { s: "Change", a: "Fluctuate", t: "Trend" },
+                { s: "Small", a: "Marginal", t: "Adjective" }
+            ];
+            const grid = document.getElementById('vocab-grid');
+            grid.innerHTML = vocab.map(v => `
+                <div class="bg-white p-4 rounded-lg border border-slate-200 flex justify-between items-center shadow-sm">
+                    <div>
+                        <span class="text-[10px] font-bold text-blue-500 uppercase">${v.t}</span>
+                        <p class="text-slate-400 text-xs">${v.s}</p>
+                        <p class="font-bold text-lg">${v.a}</p>
+                    </div>
+                    <i data-lucide="trending-up" class="text-slate-200"></i>
+                </div>
+            `).join('');
         }
 
-        // Initialize progress bar
-        updateProgress();
-
-        // Add Keyboard controls (Left/Right arrow)
-        document.addEventListener('keydown', function(event) {
-            if(event.key === "ArrowRight") {
-                changeSlide(1);
-            } else if(event.key === "ArrowLeft") {
-                changeSlide(-1);
-            }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            loadTask1Exercise();
+            initVocab();
         });
     </script>
 </body>
